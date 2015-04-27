@@ -332,13 +332,13 @@ public class Controller implements Initializable {
 
                     if (seconLeft.isSelected() || secondRight.isSelected()) {
                         float angle = seconLeft.isSelected() ? -0.2f : 0.2f;
-                        secondRotateAngle +=angle;
+                        secondRotateAngle += angle;
                         Point3D p = new Point3D(1, 1, 0);
                         MatrixOperations.rotPoint(p, Math.toRadians(rotateAngle));
                         cuboid2.translateYCoor(7.5);
 //                        cuboid2.translateXCoor(2.5);
                         secondCube.translateYCoor(2.5);
-                        cuboid2.rotateAroundAxis(p, Math.toRadians(angle));
+                        cuboid2.rotateAroundAxis(p.normalize(), Math.toRadians(angle));
                         secondCube.rotateAroundAxis(p, Math.toRadians(angle));
                         cuboid2.translateYCoor(-7.5);
 //                        cuboid2.translateXCoor(-2.5);
@@ -346,7 +346,7 @@ public class Controller implements Initializable {
 
                         cuboid3.translateYCoor(7.5);
                         thirdCube.translateYCoor(2.5);
-                        cuboid3.rotateAroundAxis(p, Math.toRadians(angle));
+                        cuboid3.rotateAroundAxis(p.normalize(), Math.toRadians(angle));
                         thirdCube.rotateAroundAxis(p, Math.toRadians(angle));
                         cuboid3.translateYCoor(-7.5);
                         thirdCube.translateYCoor(-2.5);
@@ -355,14 +355,24 @@ public class Controller implements Initializable {
 
                     if (thirdLeft.isSelected() || thirdRight.isSelected()) {
                         float angle = thirdLeft.isSelected() ? -0.2f : 0.2f;
-//                        cuboid3.rorateXAxis(angle);
+                        Point3D p = new Point3D(1, 1, 0);
+                        MatrixOperations.rotPoint(p, Math.toRadians(rotateAngle));
+
                         cuboid3.translateYCoor(7.5);
-                        thirdCube.translateYCoor(2.5);
+                        cuboid3.rotateAroundAxis(p.normalize(), Math.toRadians(-secondRotateAngle));
+                        cuboid3.rorateXAxis(Math.toRadians(-rotateAngle));
+                        cuboid3.translateXCoor(15);
+
                         Point3D z = new Point3D(1, -1, 0);
 //                        MatrixOperations.rotPoint(z, Math.toRadians(rotateAngle));
-                        cuboid3.rotateAroundAxis(z, Math.toRadians(angle));
-                        thirdCube.rotateAroundAxis(z, Math.toRadians(angle));
+                        cuboid3.rotateAroundAxis(z.normalize(), Math.toRadians(angle));
+//                        thirdCube.rotateAroundAxis(z, Math.toRadians(angle));
+
+                        cuboid3.translateXCoor(-15);
+                        cuboid3.rorateXAxis(Math.toRadians(rotateAngle));
+                        cuboid3.rotateAroundAxis(p.normalize(), Math.toRadians(secondRotateAngle));
                         cuboid3.translateYCoor(-7.5);
+
                         thirdCube.translateYCoor(-2.5);
                     }
                     cuboid.updateFigureMesh();
